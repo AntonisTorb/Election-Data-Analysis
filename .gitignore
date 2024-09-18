@@ -1,2 +1,4 @@
 env
 *.png
+test.py
+__pycache__

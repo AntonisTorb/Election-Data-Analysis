@@ -1,0 +1,41 @@
+html {
+    background-color: rgb(44, 44, 44);
+    color: beige;
+}
+
+.container--main {
+    display: grid;
+    grid-template-columns: minmax(400px, 3fr) minmax(200px, 1fr)
+}
+
+.container--graph {
+    border: 5px red solid;
+    max-height: 80vh;
+    /* overflow: hidden; */
+    min-height: 300px;
+}
+
+.container--graph>img {
+    display: flex;
+    max-width: 100%;
+    max-height: inherit;
+    object-fit: contain;
+    margin: auto;
+    min-height: inherit;
+}
+
+.container--controls {
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;
+}
+
+.container--controls>* {
+    margin: 5px;
+}
+
+@media(max-width:650px) {
+    .container--main {
+        grid-template-columns: 1fr;
+    }
+}
