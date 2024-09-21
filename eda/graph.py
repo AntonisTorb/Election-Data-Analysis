@@ -3,8 +3,10 @@ import sqlite3
 
 from .models import GraphParameters
 
+from matplotlib import dates
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
+import numpy as np
 import pandas as pd
 
 
@@ -74,14 +76,22 @@ def get_final_df(df_election: pd.DataFrame, df_election_results: pd.DataFrame) -
 def get_fig(df_final: pd.DataFrame, data: GraphParameters) -> Figure:
     '''Creates and returns a `Figure` object containing the "left_right - "date" Matplotlib plot.'''
 
-    # Need to: Add logic to add linear regression line to graph.
     fig, ax = plt.subplots()
+
+    # Linear regression line: y = a * x + b 
+    a, b = np.polyfit(dates.date2num(df_final["date"]), df_final["left_right"], 1)
+
+    ax.plot(df_final["date"],
+             a * dates.date2num(df_final["date"]) + b,
+             color=data.line_regression_color
+             )
+    
     ax.plot(df_final["date"], 
             df_final["left_right"], 
             marker="o", 
             markeredgecolor=data.point_color, 
             markerfacecolor=data.point_color, 
-            color=data.line_color
+            color=data.line_connecting_color
             )
     
     fig.patch.set_color(data.bg_color)

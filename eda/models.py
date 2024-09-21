@@ -8,7 +8,8 @@ class GraphParameters(BaseModel):
     filetype: str
     bg_color: str
     bg_alpha: float
-    line_color: str
+    line_connecting_color: str
+    line_regression_color: str
     point_color: str
     text_color: str
     grid_color: str
