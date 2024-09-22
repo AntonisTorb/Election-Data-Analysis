@@ -3,15 +3,70 @@ html {
     color: beige;
 }
 
+*{
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0;
+}
+
+header{
+    min-height: 50px;
+    background-color:  rgb(60, 60, 60);
+    margin: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+menu{
+    margin: 0;
+    display: flex;
+}
+
+#light-dark{
+    justify-self: end;
+    margin: 0 5px;
+    display: flex;
+    border: rgb(120, 120, 120) 1px solid;
+    border-radius: 15px;
+}
+
+.btn{
+    padding: 0.5em 1em;
+    cursor: pointer;
+}
+
+span{
+    line-height: 2em;
+}
+
+#light{
+    border-top-left-radius: 13px;
+    border-bottom-left-radius: 13px;
+}
+
+#dark{
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    background-color: rgb(120, 120, 120);
+}
+
 .container-main {
     display: grid;
+    padding-top: 50px;
     grid-template-columns: minmax(400px, 2fr) minmax(200px, 1fr);
+    margin: 5px;
 }
 
 .container-graph {
     border: 2px solid rgb(120, 120, 120);
     border-radius: 5px;
-    max-height: 100vh;
+    max-height: 80vh;
     min-height: 300px;
     margin: 5px;
 }
@@ -23,7 +78,7 @@ html {
     object-fit: contain;
     margin: auto;
     min-height: inherit;
-    border: 1px solid red;
+    /* border: 1px solid red; */
 }
 
 .container-controls,
@@ -35,14 +90,6 @@ html {
 
 #graph-parameters>* {
     margin: 5px;
-}
-
-select {
-    background-color: rgb(80, 80, 80);
-    border: 0;
-    color: beige;
-    font-size: inherit;
-    transition: 250ms;
 }
 
 input[type="submit"] {
@@ -61,9 +108,19 @@ input[type="submit"] {
     border-radius: 5px;
 }
 
+select {
+    background-color: rgb(80, 80, 80);
+    border: 0;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    color: beige;
+    font-size: inherit;
+    transition: 250ms;
+}
+
 .container-colors {
     border: 2px solid rgb(120, 120, 120);
-    border-radius: 5px;
+    border-radius: 6px;
     display: grid;
     grid-template-columns: 3fr 1fr;
     gap: 5px;
