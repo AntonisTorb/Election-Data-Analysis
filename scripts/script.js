@@ -1,10 +1,10 @@
-const graphButton = document.getElementById("btn--get-graph");
-const countryButton = document.getElementById("btn--get-countries");
-const graph = document.getElementById("graph");
-const sel = document.getElementById("countries");
+let graph = document.querySelector("#graph");
+let sel = document.querySelector("#countries");
+let fileType = document.querySelector("#filetype");
+
 sel.disabled = true;
 
-getCountries = async function () {
+let getCountries = async function () {
     const r = await fetch("http://127.0.0.1:8000/countries");
     sel.innerHTML = "";
     const countryList = await r.json();
@@ -14,24 +14,18 @@ getCountries = async function () {
         opt.innerHTML = countryList[i];
         opt.value = countryList[i];
         sel.appendChild(opt);
-    }
+    };
     sel.disabled = false;
 };
 
-getGraph = async function () {
-    const data = {
-        country: sel.value,
-        filetype: "webp",
-        bg_color: "#5e5e5e",
-        bg_alpha: 0,
-        line_connecting_color: "#0b03fc",
-        line_regression_color: "#0bfc03",
-        point_color: "#fca103",
-        text_color: "#6f03fc",
-        grid_color: "#000000",
-        grid_alpha: 0.2,
-        axes_color: "#fc2003",
-    };
+let getGraph = async function (evt) {
+
+    evt.preventDefault();
+    const form = document.querySelector("#graph-parameters");
+    const formData = new FormData(form);
+    const graphParameters = Object.fromEntries(formData);
+
+    // console.log(JSON.stringify(graphParameters));
 
     const r = await fetch("http://127.0.0.1:8000/graph", {
         method: "POST",
@@ -39,7 +33,7 @@ getGraph = async function () {
             'Accept': 'image/*',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(graphParameters)
     });
 
     const graphBlob = await r.blob();
@@ -47,5 +41,56 @@ getGraph = async function () {
     graph.src = graphUrl;
 };
 
+let updateOpacity = function (event) {
+    if (fileType.value == "jpg") {
+        document.querySelector("#bg-alpha-slider").value = 1;
+        document.querySelector("#bg-alpha-number").value = 1;
+        document.querySelector("#grid-alpha-slider").value = 1;
+        document.querySelector("#grid-alpha-number").value = 1;
+        return;
+    };
+    if (event.target.id == "bg-alpha-slider") {
+        const slider = document.querySelector("#bg-alpha-slider");
+        const number = document.querySelector("#bg-alpha-number");
+        number.value = slider.value;
+    } else if (event.target.id == "bg-alpha-number") {
+        const slider = document.querySelector("#bg-alpha-slider");
+        const number = document.querySelector("#bg-alpha-number");
+        slider.value = number.value;
+    } else if (event.target.id == "grid-alpha-slider") {
+        const slider = document.querySelector("#grid-alpha-slider");
+        const number = document.querySelector("#grid-alpha-number");
+        number.value = slider.value;
+    } else if (event.target.id == "grid-alpha-number") {
+        const slider = document.querySelector("#grid-alpha-slider");
+        const number = document.querySelector("#grid-alpha-number");
+        slider.value = number.value;
+    };
+};
+
+let opacityException = function () {
+    if (fileType.value == "jpg") {
+        document.querySelector("#bg-alpha-slider").value = 1;
+        document.querySelector("#bg-alpha-number").value = 1;
+        document.querySelector("#grid-alpha-slider").value = 1;
+        document.querySelector("#grid-alpha-number").value = 1;
+    };
+};
+
 document.addEventListener("DOMContentLoaded", getCountries);
-graphButton.addEventListener("click", getGraph);
+
+let bgOpacitySlider = document.querySelector("#bg-alpha-slider");
+let bgOpacityNumber = document.querySelector("#bg-alpha-number");
+
+let gridOpacitySlider = document.querySelector("#grid-alpha-slider");
+let gridOpacityNumber = document.querySelector("#grid-alpha-number");
+
+bgOpacitySlider.addEventListener("input", updateOpacity);
+bgOpacityNumber.addEventListener("input", updateOpacity);
+gridOpacitySlider.addEventListener("input", updateOpacity);
+gridOpacityNumber.addEventListener("input", updateOpacity);
+
+fileType.addEventListener("input", opacityException);
+
+let form = document.querySelector("#graph-parameters");
+form.addEventListener("submit", getGraph);

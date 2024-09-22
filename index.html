@@ -11,21 +11,58 @@
 </head>
 
 <body>
-    <div class="container--main">
-        <div class="container--graph">
+    <div class="container-main">
+        <div class="container-graph">
             <img id="graph" src=".\assets\no_img.png" alt="no image found">
         </div>
-        <div class="container--controls">
-            <select disabled name="countries" id="countries"></select>
-            <button id="btn--get-graph">Get graph</button>
+        <div class="container-controls">
+            <form id="graph-parameters">
+                <div class="container-countries">
+                    <label for="countries">Country: </label>
+                    <select disabled name="country" id="countries"></select>
+                </div>
+
+                <div class="container-colors">
+                    <label for="bg-color">Background Color: </label>
+                    <input type="color" name="bg_color" id="bg-color" value="#a0a0a0">
+                    <label for="point-color">Data Point Color: </label>
+                    <input type="color" name="point_color" id="point-color">
+                    <label for="line-connecting-color">Connecting Line Color: </label>
+                    <input type="color" name="line_connecting_color" id="line-connecting-color">
+                    <label for="line-regression-color">Regression Line Color: </label>
+                    <input type="color" name="line_regression_color" id="line-regression-color">
+                    <label for="text-color">Text Color: </label>
+                    <input type="color" name="text_color" id="text-color">
+                    <label for="grid-color">Grid Line Color: </label>
+                    <input type="color" name="grid_color" id="grid-color">
+                    <label for="axes-color">Axes Color: </label>
+                    <input type="color" name="axes_color" id="axes-color">
+                </div>
+
+                <div class="container-alphas">
+                    <label for="bg_alpha">Background Opacity: </label>
+                    <input type="range" name="bg_alpha" id="bg-alpha-slider" value="1" min="0" max="1" step="0.01">
+                    <input type="number" name="bg_alpha" id="bg-alpha-number" value="1" min="0" max="1" step="0.01">
+                    <label for="grid_alpha">Grid Opacity: </label>
+                    <input type="range" name="grid_alpha" id="grid-alpha-slider" value="1" min="0" max="1" step="0.01">
+                    <input type="number" name="grid_alpha" id="grid-alpha-number" value="1" min="0" max="1" step="0.01">
+                </div>
+
+                <div class="container-file">
+                    <label for="filetype">Filetype: </label>
+                    <select name="filetype" id="filetype">
+                        <option value="webp" selected>webp</option>
+                        <option value="png">png</option>
+                        <option value="jpg">jpg</option>
+                    </select>
+                </div>
+
+                <input type="submit" id="btn-get-graph" value="Get Graph">
+
+            </form>
         </div>
     </div>
     <script type="text/javascript" src="./scripts/script.js"></script>
 </body>
-
-
-
-
-
 
 </html>

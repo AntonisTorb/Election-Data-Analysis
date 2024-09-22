@@ -3,39 +3,126 @@ html {
     color: beige;
 }
 
-.container--main {
+.container-main {
     display: grid;
-    grid-template-columns: minmax(400px, 3fr) minmax(200px, 1fr)
+    grid-template-columns: minmax(400px, 2fr) minmax(200px, 1fr);
 }
 
-.container--graph {
-    border: 5px red solid;
-    max-height: 80vh;
-    /* overflow: hidden; */
+.container-graph {
+    border: 2px solid rgb(120, 120, 120);
+    border-radius: 5px;
+    max-height: 100vh;
     min-height: 300px;
+    margin: 5px;
 }
 
-.container--graph>img {
+.container-graph>img {
     display: flex;
     max-width: 100%;
     max-height: inherit;
     object-fit: contain;
     margin: auto;
     min-height: inherit;
+    border: 1px solid red;
 }
 
-.container--controls {
+.container-controls,
+#graph-parameters {
     display: flex;
     flex-direction: column;
     min-width: 200px;
 }
 
-.container--controls>* {
+#graph-parameters>* {
     margin: 5px;
 }
 
-@media(max-width:650px) {
-    .container--main {
+select {
+    background-color: rgb(80, 80, 80);
+    border: 0;
+    color: beige;
+    font-size: inherit;
+    transition: 250ms;
+}
+
+input[type="submit"] {
+    background-color: rgb(80, 80, 80);
+    border: 0;
+    border-radius: 10px;
+    color: beige;
+    transition: 250ms;
+    font-size: inherit;
+}
+
+.container-countries {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 2px solid rgb(120, 120, 120);
+    border-radius: 5px;
+}
+
+.container-colors {
+    border: 2px solid rgb(120, 120, 120);
+    border-radius: 5px;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 5px;
+    align-items: center;
+}
+
+.container-alphas {
+    border: 2px solid rgb(120, 120, 120);
+    border-radius: 5px;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 5px;
+    align-items: center;
+}
+
+.container-file {
+    border: 2px solid rgb(120, 120, 120);
+    border-radius: 5px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+    align-items: center;
+}
+
+label {
+    margin: 0 5px;
+}
+
+input[type="color"] {
+    background-color: rgb(80, 80, 80);
+    border: 0;
+    transition: 250ms;
+    font-size: inherit;
+    justify-self: end;
+    margin-right: 5px;
+}
+
+input[type="range"] {
+    min-width: 100px;
+}
+
+input[type="number"] {
+    background-color: rgb(80, 80, 80);
+    color: beige;
+    border: 0;
+    width: 50px;
+    justify-self: end;
+    margin-right: 5px;
+}
+
+input[type="submit"]:hover,
+input[type="color"]:hover,
+select:hover {
+    background-color: rgb(120, 120, 120);
+}
+
+
+@media(max-width:900px) {
+    .container-main {
         grid-template-columns: 1fr;
     }
 }

@@ -97,8 +97,7 @@ def get_fig(df_final: pd.DataFrame, data: GraphParameters) -> Figure:
     fig.patch.set_color(data.bg_color)
     fig.patch.set_alpha(data.bg_alpha)
 
-    ax.patch.set_color(data.bg_color)
-    ax.patch.set_alpha(data.bg_alpha)
+    ax.patch.set_alpha(0)
 
     ax.set_xlabel("Election Date", color=data.text_color)
     ax.set_ylabel("Weighted Left-Right Parliament Index", color=data.text_color)
@@ -131,4 +130,6 @@ def create_graph(con: sqlite3.Connection, cur: sqlite3.Cursor, data: GraphParame
 
     buf = BytesIO()
     fig.savefig(buf, format=data.filetype)
+    plt.close()
+    
     return buf
