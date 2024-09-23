@@ -1,6 +1,7 @@
 html {
     background-color: rgb(44, 44, 44);
     color: beige;
+    font-size: 16px;
 }
 
 *{
@@ -74,10 +75,9 @@ span{
 .container-graph>img {
     display: flex;
     max-width: 100%;
-    max-height: inherit;
+    max-height: 100%;
     object-fit: contain;
     margin: auto;
-    min-height: inherit;
     /* border: 1px solid red; */
 }
 
@@ -111,11 +111,18 @@ input[type="submit"] {
 select {
     background-color: rgb(80, 80, 80);
     border: 0;
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 3px;
     color: beige;
     font-size: inherit;
     transition: 250ms;
+}
+
+#countries{
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+#filetype{
+   border-top-right-radius: 3px; 
 }
 
 .container-colors {
@@ -143,6 +150,18 @@ select {
     grid-template-columns: 1fr 1fr;
     gap: 5px;
     align-items: center;
+}
+
+#download-graph-button{
+    background-color: rgb(80, 80, 80);
+    color: beige;
+    border: 0;
+    transition: 250ms;
+    font-size: inherit;
+    grid-column: span 2;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+
 }
 
 label {
@@ -173,7 +192,8 @@ input[type="number"] {
 
 input[type="submit"]:hover,
 input[type="color"]:hover,
-select:hover {
+select:hover,
+#download-graph-button:hover{
     background-color: rgb(120, 120, 120);
 }
 

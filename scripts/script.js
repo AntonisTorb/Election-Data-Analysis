@@ -1,26 +1,28 @@
 let graph = document.querySelector("#graph");
-let sel = document.querySelector("#countries");
+let countrySelector = document.querySelector("#countries");
 let fileType = document.querySelector("#filetype");
+let downloadButton = document.querySelector("#download-graph-button");
 
-sel.disabled = true;
+countrySelector.disabled = true;
+downloadButton.disabled = true;
 
 let getCountries = async function () {
     const r = await fetch("http://127.0.0.1:8000/countries");
-    sel.innerHTML = "";
+    countrySelector.innerHTML = "";
     const countryList = await r.json();
 
     for (let i = 0; i < countryList.length; i++) {
         var opt = document.createElement('option');
         opt.innerHTML = countryList[i];
         opt.value = countryList[i];
-        sel.appendChild(opt);
+        countrySelector.appendChild(opt);
     };
-    sel.disabled = false;
+    countrySelector.disabled = false;
 };
 
-let getGraph = async function (evt) {
+let getGraph = async function (event) {
 
-    evt.preventDefault();
+    event.preventDefault();
     const form = document.querySelector("#graph-parameters");
     const formData = new FormData(form);
     const graphParameters = Object.fromEntries(formData);
@@ -39,16 +41,37 @@ let getGraph = async function (evt) {
     const graphBlob = await r.blob();
     const graphUrl = URL.createObjectURL(graphBlob);
     graph.src = graphUrl;
+    downloadButton.disabled = false;
 };
 
-let updateOpacity = function (event) {
-    if (fileType.value == "jpg") {
-        document.querySelector("#bg-alpha-slider").value = 1;
-        document.querySelector("#bg-alpha-number").value = 1;
-        document.querySelector("#grid-alpha-slider").value = 1;
-        document.querySelector("#grid-alpha-number").value = 1;
+let opacityException = async function (event) {
+
+    if (fileType.value != "jpg"){
+        if (event.target.id == fileType.id) {
+            await getGraph(event);
+        };
+        return false;
+    };
+
+    document.querySelector("#bg-alpha-slider").value = 1;
+    document.querySelector("#bg-alpha-number").value = 1;
+    document.querySelector("#grid-alpha-slider").value = 1;
+    document.querySelector("#grid-alpha-number").value = 1;
+
+    if (fileType.value == "jpg" && event.target.id == fileType.id){
+        await getGraph(event);
+    };
+
+    return true;
+};
+
+let updateOpacity = async function (event) {
+
+    const isJpg = await opacityException(event);
+    if (isJpg){
         return;
     };
+
     if (event.target.id == "bg-alpha-slider") {
         const slider = document.querySelector("#bg-alpha-slider");
         const number = document.querySelector("#bg-alpha-number");
@@ -66,15 +89,14 @@ let updateOpacity = function (event) {
         const number = document.querySelector("#grid-alpha-number");
         slider.value = number.value;
     };
+    await getGraph(event);
 };
 
-let opacityException = function () {
-    if (fileType.value == "jpg") {
-        document.querySelector("#bg-alpha-slider").value = 1;
-        document.querySelector("#bg-alpha-number").value = 1;
-        document.querySelector("#grid-alpha-slider").value = 1;
-        document.querySelector("#grid-alpha-number").value = 1;
-    };
+let downloadFile = function(){
+    let link = downloadButton.querySelector("a");
+    link.href = graph.src;
+    link.download = `${countrySelector.value} historical parliament composition.${fileType.value}`;
+    link.click();
 };
 
 document.addEventListener("DOMContentLoaded", getCountries);
@@ -91,6 +113,9 @@ gridOpacitySlider.addEventListener("input", updateOpacity);
 gridOpacityNumber.addEventListener("input", updateOpacity);
 
 fileType.addEventListener("input", opacityException);
+
+countrySelector.addEventListener("input", getGraph);
+downloadButton.addEventListener("click", downloadFile);
 
 let form = document.querySelector("#graph-parameters");
 form.addEventListener("submit", getGraph);
