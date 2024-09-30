@@ -14,6 +14,15 @@ body{
     margin: 0;
 }
 
+input,
+select{
+    cursor: pointer;
+}
+
+input[type="number"]{
+    cursor:text;
+}
+
 header{
     min-height: 50px;
     background-color:  rgb(60, 60, 60);
@@ -29,6 +38,7 @@ header{
 menu{
     margin: 0;
     display: flex;
+    align-self: center;
 }
 
 #light-dark{
@@ -71,7 +81,7 @@ span{
     grid-template-columns: 1fr;
     border: 2px solid rgb(120, 120, 120);
     border-radius: 5px;
-    height: calc(100vh - 70px);
+    height: calc(100vh - 100px); /*100px: 50px header + 30 px footer + 4*5px margins*/
     min-height: 300px;
     margin: 5px;
 }
@@ -90,12 +100,11 @@ span{
     display: flex;
     flex-direction: column;
     min-width: 200px;
-    height: calc(100vh - 70px);
+    height: calc(100vh - 100px); /*100px: 50px header + 30 px footer + 4*5px margins*/
 }
 
 .container-controls{
     overflow: hidden scroll;
-    /* overflow-x: hidden; */
 }
 
 #graph-parameters>* {
@@ -164,14 +173,13 @@ select {
 
 #download-graph-button{
     background-color: rgb(80, 80, 80);
-    color: beige;
+    color: greenyellow;
     border: 0;
     transition: 250ms;
     font-size: inherit;
     grid-column: span 2;
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
-
 }
 
 label {
@@ -207,6 +215,40 @@ select:hover,
     background-color: rgb(120, 120, 120);
 }
 
+#download-graph-button:hover{
+    color: lightgreen;
+}
+
+#download-graph-button:disabled,
+#countries:disabled{
+    cursor: auto;
+    background-color: rgb(80, 80, 80);
+    color: rgb(255, 180, 180);
+}
+
+footer{
+    position: fixed;
+    top: calc(100vh - 30px);
+    width: 100%;
+    display: flex;
+    background-color: rgb(80, 80, 80);
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+}
+
+footer>*{
+    margin: 0 10px;
+}
+
+footer>a{
+    color: lightblue;
+    transition: 250ms;
+}
+
+footer>a:hover{
+    color: rgb(50, 215, 230);
+}
 
 @media(max-width:900px) {
     .container-main {
@@ -218,13 +260,28 @@ select:hover,
         height: auto;
     }
 
-    .container-controls{
+    .container-controls,
+    #graph-parameters{
+        height: auto;
         overflow: initial;
+
     }
+    
+    footer{
+        position: relative;
+        top: initial;
+        }
 }
 
-@media(max-height:370px){
-    .container-controls{
+@media(max-height:400px){
+    .container-controls,
+    #graph-parameters{
+        height: auto;
         overflow: initial;
+    }
+
+    footer{
+        position: relative;
+        top: initial;
     }
 }
