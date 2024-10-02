@@ -1,31 +1,92 @@
+:root {
+    --dark-color-1: rgb(44, 44, 44);
+    --dark-color-2: rgb(60, 60, 60);
+    --dark-color-3: rgb(80, 80, 80);
+    --dark-color-4: rgb(120, 120, 120);
+
+    --light-color-1: rgb(235, 235, 235);
+    --light-color-2: rgb(210, 210, 210);
+    --light-color-3: rgb(190, 190, 190);
+    --light-color-4: rgb(160, 160, 160);
+
+    --header-height: 50px;
+    --footer-height: 30px;
+    --base-margin: 5px;
+
+    @media (prefers-color-scheme: dark) {
+        --text-color: beige;
+        --main-bg-color: var(--dark-color-1);
+        --scrollbar-thumb-color: var(--dark-color-2);
+        --header-bg-color: var(--dark-color-3);
+        --footer-bg-color: var(--dark-color-3);
+        --input-bg-color: var(--dark-color-3);
+        --scrollbar-track-color: var(--dark-color-4);
+        --border-color: var(--dark-color-4);
+        --mode-selection-color: var(--dark-color-4);
+        --hover-input-color: var(--dark-color-4);
+        --dl-btn-color: greenyellow;
+        --dl-btn-hover-color: lightgreen;
+        --disabled-input-text-color: rgb(255, 180, 180);
+        --link-color: lightblue;
+        --link-hover-color: rgb(50, 215, 230);
+
+        #dark {
+            background-color: var(--mode-selection-color);
+        }
+    }
+
+    @media (prefers-color-scheme: light) {
+        --text-color: rgb(75, 75, 75);
+        --main-bg-color: var(--light-color-1);
+        --scrollbar-thumb-color: var(--light-color-2);
+        --header-bg-color: var(--light-color-3);
+        --footer-bg-color: var(--light-color-3);
+        --input-bg-color: var(--light-color-3);
+        --scrollbar-track-color: var(--light-color-4);
+        --border-color: var(--light-color-4);
+        --mode-selection-color: var(--light-color-4);
+        --hover-input-color: var(--light-color-4);
+        --dl-btn-color: green;
+        --dl-btn-hover-color: lightgreen;
+        --disabled-input-text-color: rgb(145, 0, 0);
+        --link-color: blue;
+        --link-hover-color: rgb(100, 100, 255);
+
+        #light {
+            background-color: var(--mode-selection-color);
+        }
+    }
+}
+
 html {
-    background-color: rgb(44, 44, 44);
-    color: beige;
+    background-color: var(--main-bg-color);
+    color: var(--text-color);
     font-size: 16px;
 }
 
-*{
+* {
     box-sizing: border-box;
+    transition: 250ms;
     scrollbar-width: thin;
-    scrollbar-color: rgb(120, 120, 120) rgb(60, 60, 60);
+    scrollbar-color: var(--scrollbar-track-color) var(--scrollbar-thumb-color);
 }
 
-body{
+body {
     margin: 0;
 }
 
 input,
-select{
+select {
     cursor: pointer;
 }
 
-input[type="number"]{
-    cursor:text;
+input[type="number"] {
+    cursor: text;
 }
 
-header{
-    min-height: 50px;
-    background-color:  rgb(60, 60, 60);
+header {
+    min-height: var(--header-height);
+    background-color: var(--header-bg-color);
     margin: 0;
     position: fixed;
     top: 0;
@@ -35,55 +96,55 @@ header{
     grid-template-columns: 1fr 1fr;
 }
 
-menu{
+menu {
     margin: 0;
     display: flex;
     align-self: center;
 }
 
-#light-dark{
+#light-dark {
     justify-self: end;
     margin: 0 5px;
     display: flex;
-    border: rgb(120, 120, 120) 1px solid;
+    border: var(--border-color) 1px solid;
     border-radius: 15px;
 }
 
-.btn{
+.btn {
     padding: 0.5em 1em;
     cursor: pointer;
 }
 
-span{
+span {
     line-height: 2em;
 }
 
-#light{
+#light {
     border-top-left-radius: 13px;
     border-bottom-left-radius: 13px;
 }
 
-#dark{
-    border-top-right-radius: 15px;
-    border-bottom-right-radius: 15px;
-    background-color: rgb(120, 120, 120);
+#dark {
+    border-top-right-radius: 13px;
+    border-bottom-right-radius: 13px;
 }
 
 .container-main {
     display: grid;
     padding-top: 50px;
     grid-template-columns: minmax(400px, 2fr) minmax(200px, 1fr);
-    margin: 5px;
+    margin: var(--base-margin);
 }
 
 .container-graph {
     display: grid;
     grid-template-columns: 1fr;
-    border: 2px solid rgb(120, 120, 120);
+    border: 2px solid var(--border-color);
     border-radius: 5px;
-    height: calc(100vh - 100px); /*100px: 50px header + 30 px footer + 4*5px margins*/
+    height: calc(100vh - var(--header-height) - var(--footer-height) - 4*var(--base-margin));
+    transition: height 0ms;
     min-height: 300px;
-    margin: 5px;
+    margin: var(--base-margin);
 }
 
 .container-graph>img {
@@ -91,8 +152,8 @@ span{
     max-height: calc(100% - 10px);
     object-fit: contain;
     margin: auto;
-    overflow: hidden; /* Needed for Chrome*/
-    /* border: 1px solid red; */
+    overflow: hidden;
+    /* overflow: hidden needed for Chrome*/
 }
 
 .container-controls,
@@ -100,52 +161,51 @@ span{
     display: flex;
     flex-direction: column;
     min-width: 200px;
-    height: calc(100vh - 100px); /*100px: 50px header + 30 px footer + 4*5px margins*/
+    height: calc(100vh - var(--header-height) - var(--footer-height) - 4*var(--base-margin));
+    transition: height 0ms;
 }
 
-.container-controls{
+.container-controls {
     overflow: hidden scroll;
 }
 
 #graph-parameters>* {
-    margin: 5px;
+    margin: var(--base-margin);
 }
 
 input[type="submit"] {
-    background-color: rgb(80, 80, 80);
+    background-color: var(--input-bg-color);
     border: 0;
     border-radius: 10px;
-    color: beige;
-    transition: 250ms;
+    color: var(--text-color);
     font-size: inherit;
 }
 
 .container-countries {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    border: 2px solid rgb(120, 120, 120);
+    border: 2px solid var(--border-color);
     border-radius: 5px;
 }
 
 select {
-    background-color: rgb(80, 80, 80);
+    background-color: var(--input-bg-color);
     border: 0;
-    color: beige;
+    color: var(--text-color);
     font-size: inherit;
-    transition: 250ms;
 }
 
-#countries{
+#countries {
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
 }
 
-#filetype{
-   border-top-right-radius: 3px; 
+#filetype {
+    border-top-right-radius: 3px;
 }
 
 .container-colors {
-    border: 2px solid rgb(120, 120, 120);
+    border: 2px solid var(--border-color);
     border-radius: 6px;
     display: grid;
     grid-template-columns: 3fr 1fr;
@@ -154,7 +214,7 @@ select {
 }
 
 .container-alphas {
-    border: 2px solid rgb(120, 120, 120);
+    border: 2px solid var(--border-color);
     border-radius: 5px;
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
@@ -163,19 +223,18 @@ select {
 }
 
 .container-file {
-    border: 2px solid rgb(120, 120, 120);
+    border: 2px solid var(--border-color);
     border-radius: 5px;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 5px;
+    /* gap: 5px; */
     align-items: center;
 }
 
-#download-graph-button{
-    background-color: rgb(80, 80, 80);
-    color: greenyellow;
+#download-graph-button {
+    background-color: var(--input-bg-color);
+    color: var(--dl-btn-color);
     border: 0;
-    transition: 250ms;
     font-size: inherit;
     grid-column: span 2;
     border-bottom-right-radius: 3px;
@@ -187,9 +246,8 @@ label {
 }
 
 input[type="color"] {
-    background-color: rgb(80, 80, 80);
+    background-color: var(--input-bg-color);
     border: 0;
-    transition: 250ms;
     font-size: inherit;
     justify-self: end;
     margin-right: 5px;
@@ -200,8 +258,8 @@ input[type="range"] {
 }
 
 input[type="number"] {
-    background-color: rgb(80, 80, 80);
-    color: beige;
+    background-color: var(--input-bg-color);
+    color: var(--text-color);
     border: 0;
     width: 50px;
     justify-self: end;
@@ -211,43 +269,43 @@ input[type="number"] {
 input[type="submit"]:hover,
 input[type="color"]:hover,
 select:hover,
-#download-graph-button:hover{
-    background-color: rgb(120, 120, 120);
+#download-graph-button:hover {
+    background-color: var(--hover-input-color);
 }
 
-#download-graph-button:hover{
-    color: lightgreen;
+#download-graph-button:hover {
+    color: var(--dl-btn-hover-color);
 }
 
 #download-graph-button:disabled,
-#countries:disabled{
+#countries:disabled {
     cursor: auto;
-    background-color: rgb(80, 80, 80);
-    color: rgb(255, 180, 180);
+    background-color: var(--input-bg-color);
+    color: var(--disabled-input-text-color);
 }
 
-footer{
+footer {
     position: fixed;
-    top: calc(100vh - 30px);
+    top: calc(100vh - var(--footer-height));
     width: 100%;
     display: flex;
-    background-color: rgb(80, 80, 80);
-    height: 30px;
+    background-color: var(--footer-bg-color);
+    height: var(--footer-height);
     align-items: center;
     justify-content: center;
+    transition: height 0ms;
 }
 
-footer>*{
+footer>* {
     margin: 0 10px;
 }
 
-footer>a{
-    color: lightblue;
-    transition: 250ms;
+footer>a {
+    color: var(--link-color);
 }
 
-footer>a:hover{
-    color: rgb(50, 215, 230);
+footer>a:hover {
+    color: var(--link-hover-color);
 }
 
 @media(max-width:900px) {
@@ -256,32 +314,48 @@ footer>a:hover{
     }
 
     .container-graph,
-    .container-graph>img{
+    .container-graph>img {
         height: auto;
     }
 
     .container-controls,
-    #graph-parameters{
+    #graph-parameters {
         height: auto;
         overflow: initial;
 
     }
-    
-    footer{
+
+    footer {
         position: relative;
         top: initial;
-        }
+    }
 }
 
-@media(max-height:400px){
+@media(max-height:400px) {
+
     .container-controls,
-    #graph-parameters{
+    #graph-parameters {
         height: auto;
         overflow: initial;
     }
 
-    footer{
+    footer {
         position: relative;
         top: initial;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html:focus-within {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
     }
 }
