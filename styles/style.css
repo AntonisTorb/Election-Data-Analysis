@@ -3,18 +3,30 @@
     --dark-color-2: rgb(60, 60, 60);
     --dark-color-3: rgb(80, 80, 80);
     --dark-color-4: rgb(120, 120, 120);
+    --dark-text-color: beige;
+    --dark-dl-btn-color: greenyellow;
+    --dark-dl-btn-hover-color: lightgreen;
+    --dark-disabled-input-text-color: rgb(255, 180, 180);
+    --dark-link-color: lightblue;
+    --dark-link-hover-color: rgb(50, 215, 230);
 
     --light-color-1: rgb(235, 235, 235);
     --light-color-2: rgb(210, 210, 210);
     --light-color-3: rgb(190, 190, 190);
     --light-color-4: rgb(160, 160, 160);
+    --light-text-color: rgb(75, 75, 75);;
+    --light-dl-btn-color: green;
+    --light-dl-btn-hover-color: lightgreen;
+    --light-disabled-input-text-color: rgb(145, 0, 0);
+    --light-link-color: blue;
+    --light-link-hover-color: rgb(100, 100, 255);
 
     --header-height: 50px;
     --footer-height: 30px;
     --base-margin: 5px;
 
     @media (prefers-color-scheme: dark) {
-        --text-color: beige;
+        --text-color: var(--dark-text-color);
         --main-bg-color: var(--dark-color-1);
         --scrollbar-thumb-color: var(--dark-color-2);
         --header-bg-color: var(--dark-color-3);
@@ -24,11 +36,11 @@
         --border-color: var(--dark-color-4);
         --mode-selection-color: var(--dark-color-4);
         --hover-input-color: var(--dark-color-4);
-        --dl-btn-color: greenyellow;
-        --dl-btn-hover-color: lightgreen;
-        --disabled-input-text-color: rgb(255, 180, 180);
-        --link-color: lightblue;
-        --link-hover-color: rgb(50, 215, 230);
+        --dl-btn-color: var(--dark-dl-btn-color);
+        --dl-btn-hover-color: var(--dark-dl-btn-hover-color);
+        --disabled-input-text-color: var(--dark-disabled-input-text-color);
+        --link-color: var(--dark-link-color);
+        --link-hover-color: var(--dark-link-hover-color);
 
         #dark {
             background-color: var(--mode-selection-color);
@@ -36,7 +48,7 @@
     }
 
     @media (prefers-color-scheme: light) {
-        --text-color: rgb(75, 75, 75);
+        --text-color: var(--light-text-color);
         --main-bg-color: var(--light-color-1);
         --scrollbar-thumb-color: var(--light-color-2);
         --header-bg-color: var(--light-color-3);
@@ -46,11 +58,11 @@
         --border-color: var(--light-color-4);
         --mode-selection-color: var(--light-color-4);
         --hover-input-color: var(--light-color-4);
-        --dl-btn-color: green;
-        --dl-btn-hover-color: lightgreen;
-        --disabled-input-text-color: rgb(145, 0, 0);
-        --link-color: blue;
-        --link-hover-color: rgb(100, 100, 255);
+        --dl-btn-color: var(--light-dl-btn-color);
+        --dl-btn-hover-color: var(--light-dl-btn-hover-color);
+        --disabled-input-text-color: var(--light-disabled-input-text-color);
+        --link-color: var(--light-link-color);
+        --link-hover-color: var(--light-link-hover-color);
 
         #light {
             background-color: var(--mode-selection-color);
@@ -278,7 +290,9 @@ select:hover,
 }
 
 #download-graph-button:disabled,
-#countries:disabled {
+#countries:disabled,
+#btn-get-graph:disabled,
+#filetype:disabled {
     cursor: auto;
     background-color: var(--input-bg-color);
     color: var(--disabled-input-text-color);
