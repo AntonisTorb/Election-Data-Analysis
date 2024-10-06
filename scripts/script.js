@@ -18,64 +18,8 @@ gridOpacityNumber.disabled = true;
 fileType.disabled = true;
 downloadButton.disabled = true;
 
-/*
-This doesn't work on Chrome...
-let test = function(event){
-    console.log(event.matches)
-}
-
-const query = window.matchMedia('(prefers-color-scheme: light)');
-console.log(query.matches)
-query.addEventListener("change", test)*/
-
-let setLightMode = function(){
-    let root = document.querySelector(':root');
-    let rootStyle = getComputedStyle(root);
-
-    root.style.setProperty("--text-color", rootStyle.getPropertyValue("--light-text-color"));
-    root.style.setProperty("--main-bg-color", rootStyle.getPropertyValue("--light-color-1"));
-    root.style.setProperty("--scrollbar-thumb-color", rootStyle.getPropertyValue("--light-color-2"));
-    root.style.setProperty("--header-bg-color", rootStyle.getPropertyValue("--light-color-3"));
-    root.style.setProperty("--footer-bg-color", rootStyle.getPropertyValue("--light-color-3"));
-    root.style.setProperty("--input-bg-color", rootStyle.getPropertyValue("--light-color-3"));
-    root.style.setProperty("--scrollbar-track-color", rootStyle.getPropertyValue("--light-color-4"));
-    root.style.setProperty("--border-color", rootStyle.getPropertyValue("--light-color-4"));
-    root.style.setProperty("--mode-selection-color", rootStyle.getPropertyValue("--light-color-4"));
-    root.style.setProperty("--hover-input-color", rootStyle.getPropertyValue("--light-color-4"));
-    root.style.setProperty("--dl-btn-color", rootStyle.getPropertyValue("--light-dl-btn-color"));
-    root.style.setProperty("--dl-btn-hover-color", rootStyle.getPropertyValue("--light-dl-btn-hover-color"));
-    root.style.setProperty("--disabled-input-text-color", rootStyle.getPropertyValue("--light-disabled-input-text-color"));
-    root.style.setProperty("--link-color", rootStyle.getPropertyValue("--light-link-color"));
-    root.style.setProperty("--link-hover-color", rootStyle.getPropertyValue("--light-link-hover-color"));
-    lightModeBtn.style.setProperty("background-color", rootStyle.getPropertyValue("--mode-selection-color"));
-    darkModeBtn.style.setProperty("background-color", "transparent");
-};
-
-let setDarkMode = function(){
-    let root = document.querySelector(':root');
-    let rootStyle = getComputedStyle(root);
-
-    root.style.setProperty("--text-color", rootStyle.getPropertyValue("--dark-text-color"));
-    root.style.setProperty("--main-bg-color", rootStyle.getPropertyValue("--dark-color-1"));
-    root.style.setProperty("--scrollbar-thumb-color", rootStyle.getPropertyValue("--dark-color-2"));
-    root.style.setProperty("--header-bg-color", rootStyle.getPropertyValue("--dark-color-3"));
-    root.style.setProperty("--footer-bg-color", rootStyle.getPropertyValue("--dark-color-3"));
-    root.style.setProperty("--input-bg-color", rootStyle.getPropertyValue("--dark-color-3"));
-    root.style.setProperty("--scrollbar-track-color", rootStyle.getPropertyValue("--dark-color-4"));
-    root.style.setProperty("--border-color", rootStyle.getPropertyValue("--dark-color-4"));
-    root.style.setProperty("--mode-selection-color", rootStyle.getPropertyValue("--dark-color-4"));
-    root.style.setProperty("--hover-input-color", rootStyle.getPropertyValue("--dark-color-4"));
-    root.style.setProperty("--dl-btn-color", rootStyle.getPropertyValue("--dark-dl-btn-color"));
-    root.style.setProperty("--dl-btn-hover-color", rootStyle.getPropertyValue("--dark-dl-btn-hover-color"));
-    root.style.setProperty("--disabled-input-text-color", rootStyle.getPropertyValue("--dark-disabled-input-text-color"));
-    root.style.setProperty("--link-color", rootStyle.getPropertyValue("--dark-link-color"));
-    root.style.setProperty("--link-hover-color", rootStyle.getPropertyValue("--dark-link-hover-color"));
-    darkModeBtn.style.setProperty("background-color", rootStyle.getPropertyValue("--mode-selection-color"));
-    lightModeBtn.style.setProperty("background-color", "transparent");
-};
-
 let getCountries = async function () {
-    try{
+    try {
         const r = await fetch("http://127.0.0.1:8000/countries");
         countrySelector.innerHTML = "";
         const countryList = await r.json();
@@ -92,7 +36,7 @@ let getCountries = async function () {
         bgOpacityNumber.disabled = false;
         gridOpacitySlider.disabled = false;
         gridOpacityNumber.disabled = false;
-    }catch{
+    } catch {
         let getBtn = document.querySelector("#btn-get-graph").disabled = true;
     };
 };
@@ -123,7 +67,7 @@ let getGraph = async function (event) {
 
 let opacityException = async function (event) {
 
-    if (fileType.value != "jpg"){
+    if (fileType.value != "jpg") {
         if (event.target.id == fileType.id) {
             await getGraph(event);
         };
@@ -135,7 +79,7 @@ let opacityException = async function (event) {
     document.querySelector("#grid-alpha-slider").value = 1;
     document.querySelector("#grid-alpha-number").value = 1;
 
-    if (fileType.value == "jpg" && event.target.id == fileType.id){
+    if (fileType.value == "jpg" && event.target.id == fileType.id) {
         await getGraph(event);
     };
 
@@ -145,7 +89,7 @@ let opacityException = async function (event) {
 let updateOpacity = async function (event) {
 
     const isJpg = await opacityException(event);
-    if (isJpg){
+    if (isJpg) {
         return;
     };
 
@@ -169,15 +113,16 @@ let updateOpacity = async function (event) {
     await getGraph(event);
 };
 
-let downloadFile = function(){
+let downloadFile = function () {
     let link = downloadButton.querySelector("a");
     link.href = graph.src;
     link.download = `${countrySelector.value} historical parliament composition.${fileType.value}`;
     link.click();
 };
 
-darkModeBtn.addEventListener("click", setDarkMode)
-lightModeBtn.addEventListener("click", setLightMode)
+// setDarkMode and setLightMode defined in "modeDetection.js".
+darkModeBtn.addEventListener("click", setDarkMode);
+lightModeBtn.addEventListener("click", setLightMode);
 
 document.addEventListener("DOMContentLoaded", getCountries);
 
