@@ -17,22 +17,41 @@ def get_countries_list(cur: sqlite3.Cursor) -> list[str]:
     return [country_tuple[0] for country_tuple in cur.fetchall()]
 
 
-def get_country_id(cur: sqlite3.Cursor, country: str) -> int:
+def get_country_id(cur: sqlite3.Cursor, country: str) -> int|None:
     '''Returns the `country_id` linked to the provided country name from the database country table.'''
     
-    cur.execute("SELECT id from country WHERE name=?", (country,))
-    return cur.fetchone()[0]
+    cur.execute("SELECT id from country WHERE name=? COLLATE NOCASE", (country,))
+    country_id = cur.fetchone()
+    return country_id[0] if country_id else None
 
 
-def get_election_df(con: sqlite3.Connection, country_id: int) -> pd.DataFrame:
+def get_election_dates(cur: sqlite3.Cursor, country: str) -> list[str]|None:
+    '''Returns a list containing all election dates for the provided country name.'''
+
+    country_id = get_country_id(cur, country)
+    if country_id is None:
+        return None
+    cur.execute("SELECT date from election WHERE country_id=? AND type_id=13 ORDER BY date", (country_id,))
+    election_dates = cur.fetchall()
+    return [tupl[0] for tupl in election_dates] if election_dates else None
+
+
+def get_election_df(con: sqlite3.Connection, country_id: int, start_date: str, end_date: str) -> pd.DataFrame:
     '''Returns a pandas dataframe containing the following election information for the provided country id
     from the database election table:
 
     (id, date, seats_total) 
     '''
-
-    df_election = pd.read_sql_query("SELECT id, date, seats_total FROM election WHERE country_id=? AND type_id=13 ORDER BY date DESC", con, params=(country_id,))
-    
+    if not (start_date and end_date):
+        query = "SELECT id, date, seats_total FROM election WHERE country_id=? AND type_id=13 ORDER BY date DESC"
+        df_election = pd.read_sql_query(query, con, params=(country_id,))
+    else:
+        query = '''SELECT id, date, seats_total FROM election 
+            WHERE country_id=? AND type_id=13 AND date >= ? AND date <= ?
+            ORDER BY date DESC
+        '''
+        df_election = pd.read_sql_query(query, con, params=(country_id, start_date, end_date))
+   
     df_election["date"] = pd.to_datetime(df_election["date"], format="%Y-%m-%d")
     return df_election
 
@@ -118,7 +137,7 @@ def create_graph(con: sqlite3.Connection, cur: sqlite3.Cursor, data: GraphParame
     '''
 
     country_id = get_country_id(cur, data.country)
-    df_election = get_election_df(con, country_id)
+    df_election = get_election_df(con, country_id, data.start_date, data.end_date)
 
     election_ids = tuple(df_election.get("id"))
 

@@ -22,6 +22,6 @@ https://anbasile.github.io/posts/2017-06-25-jupyter-venv/
 
 
 ## ToDo
+- Make regression line optional via option.
 - More analysis/visuals + visual customization.
-- Create API and frontend to select country and date period, as well as display resulting visuals.
 - Optimizations and documentation.

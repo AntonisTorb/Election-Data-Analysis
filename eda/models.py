@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel
 
 
@@ -5,6 +6,8 @@ class GraphParameters(BaseModel):
     '''Model containing data for graph creation.'''
 
     country: str
+    start_date: Optional[str] = ""
+    end_date: Optional[str] = ""
     filetype: str
     bg_color: str
     bg_alpha: float

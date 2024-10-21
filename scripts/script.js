@@ -1,5 +1,7 @@
 let graph = document.querySelector("#graph");
 let countrySelector = document.querySelector("#countries");
+let startDateSelect = document.querySelector("#start-date");
+let endDateSelect = document.querySelector("#end-date");
 let bgOpacitySlider = document.querySelector("#bg-alpha-slider");
 let bgOpacityNumber = document.querySelector("#bg-alpha-number");
 let gridOpacitySlider = document.querySelector("#grid-alpha-slider");
@@ -11,6 +13,8 @@ let lightModeBtn = document.querySelector("#light")
 let darkModeBtn = document.querySelector("#dark")
 
 countrySelector.disabled = true;
+startDateSelect.disabled = true;
+endDateSelect.disabled = true;
 bgOpacitySlider.disabled = true;
 bgOpacityNumber.disabled = true;
 gridOpacitySlider.disabled = true;
@@ -19,29 +23,87 @@ fileType.disabled = true;
 downloadButton.disabled = true;
 
 let getCountries = async function () {
+
     try {
         const r = await fetch("http://127.0.0.1:8000/countries");
         countrySelector.innerHTML = "";
         const countryList = await r.json();
 
-        for (let i = 0; i < countryList.length; i++) {
-            var opt = document.createElement('option');
-            opt.innerHTML = countryList[i];
-            opt.value = countryList[i];
+        for (let country of countryList) {
+            let opt = document.createElement('option');
+            opt.innerHTML = country;
+            opt.value = country;
             countrySelector.appendChild(opt);
         };
+        countrySelector.selectedIndex = -1;
         countrySelector.disabled = false;
-        fileType.disabled = false;
-        bgOpacitySlider.disabled = false;
-        bgOpacityNumber.disabled = false;
-        gridOpacitySlider.disabled = false;
-        gridOpacityNumber.disabled = false;
     } catch {
-        let getBtn = document.querySelector("#btn-get-graph").disabled = true;
+        document.querySelector("#btn-get-graph").disabled = true;
     };
 };
 
+let getDates = async function () {
+
+    startDateSelect.innerHTML = "";
+    endDateSelect.innerHTML = "";
+
+    let r = await fetch(`http://127.0.0.1:8000/dates/${countrySelector.value}`);
+    const electionDates = await r.json();
+    if (electionDates.length === 0) {
+        return;
+    };
+
+    for (let i = 0; i < electionDates.length; i++) {
+        if (i < electionDates.length - 1) {
+            let opt = document.createElement('option');
+            opt.innerHTML = electionDates[i];
+            opt.value = electionDates[i];
+            startDateSelect.appendChild(opt);
+        };
+        if (i > 0) {
+            let opt = document.createElement('option');
+            opt.innerHTML = electionDates[i];
+            opt.value = electionDates[i];
+            endDateSelect.appendChild(opt);
+        };
+        startDateSelect.selectedIndex = 0;
+        endDateSelect.selectedIndex = electionDates.length - 2;
+    };
+    startDateSelect.disabled = false;
+    endDateSelect.disabled = false;
+};
+
+let dateRangeModify = async function (event) {
+
+    let startDateIndex = startDateSelect.selectedIndex;
+    let endDateIndex = endDateSelect.selectedIndex;
+
+    for (let i = 0; i < startDateSelect.childElementCount; i++) {
+        startDateSelect.options[i].disabled = false;
+        endDateSelect.options[i].disabled = false;
+    };
+
+    for (let i = 0; i < startDateIndex; i++) {
+        let toDisable = endDateSelect.options[i];
+        toDisable.disabled = true;
+    };
+
+    for (let i = endDateIndex + 1; i < startDateSelect.childElementCount; i++) {
+        let toDisable = startDateSelect.options[i];
+        toDisable.disabled = true;
+    };
+
+    getGraph(event);
+
+};
+
 let getGraph = async function (event) {
+
+    fileType.disabled = false;
+    bgOpacitySlider.disabled = false;
+    bgOpacityNumber.disabled = false;
+    gridOpacitySlider.disabled = false;
+    gridOpacityNumber.disabled = false;
 
     event.preventDefault();
     const form = document.querySelector("#graph-parameters");
@@ -133,6 +195,9 @@ gridOpacityNumber.addEventListener("input", updateOpacity);
 
 fileType.addEventListener("input", opacityException);
 
+countrySelector.addEventListener("input", getDates);
+startDateSelect.addEventListener("input", dateRangeModify);
+endDateSelect.addEventListener("input", dateRangeModify);
 countrySelector.addEventListener("input", getGraph);
 downloadButton.addEventListener("click", downloadFile);
 

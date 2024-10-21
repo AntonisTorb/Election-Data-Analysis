@@ -230,12 +230,28 @@ select {
     border-top-right-radius: 3px;
 }
 
+.container-dates {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    row-gap: 5px;
+}
+
+#start-date {
+    border-top-right-radius: 3px;
+}
+
+#end-date {
+    border-bottom-right-radius: 3px;
+}
+
 .container-colors {
     border: 2px solid var(--border-color);
     border-radius: 6px;
     display: grid;
     grid-template-columns: 3fr 1fr;
-    gap: 5px;
+    row-gap: 5px;
     align-items: center;
 }
 
