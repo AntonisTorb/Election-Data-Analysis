@@ -47,8 +47,6 @@
                     <input type="color" name="point_color" id="point-color">
                     <label for="line-connecting-color">Connecting Line Color: </label>
                     <input type="color" name="line_connecting_color" id="line-connecting-color">
-                    <label for="line-regression-color">Regression Line Color: </label>
-                    <input type="color" name="line_regression_color" id="line-regression-color">
                     <label for="text-color">Text Color: </label>
                     <input type="color" name="text_color" id="text-color">
                     <label for="grid-color">Grid Line Color: </label>
@@ -64,6 +62,13 @@
                     <label for="grid_alpha">Grid Opacity: </label>
                     <input type="range" name="grid_alpha" id="grid-alpha-slider" value="1" min="0" max="1" step="0.01">
                     <input type="number" name="grid_alpha" id="grid-alpha-number" value="1" min="0" max="1" step="0.01">
+                </div>
+
+                <div class="container-regression">
+                    <label for="incl_regression">Include Regression Line: </label>
+                    <input type="checkbox" name="incl_regression" id="include-regression" checked>
+                    <label for="line-regression-color">Regression Line Color: </label>
+                    <input type="color" name="line_regression_color" id="line-regression-color">
                 </div>
 
                 <div class="container-file">

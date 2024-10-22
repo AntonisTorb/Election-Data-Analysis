@@ -6,8 +6,10 @@ let bgOpacitySlider = document.querySelector("#bg-alpha-slider");
 let bgOpacityNumber = document.querySelector("#bg-alpha-number");
 let gridOpacitySlider = document.querySelector("#grid-alpha-slider");
 let gridOpacityNumber = document.querySelector("#grid-alpha-number");
+let inclRegression = document.querySelector("#include-regression");
 let fileType = document.querySelector("#filetype");
 let downloadButton = document.querySelector("#download-graph-button");
+let prevTime = new Date().getTime();
 
 let lightModeBtn = document.querySelector("#light")
 let darkModeBtn = document.querySelector("#dark")
@@ -99,13 +101,24 @@ let dateRangeModify = async function (event) {
 
 let getGraph = async function (event) {
 
+    event.preventDefault();
+    if (countrySelector.value === "") {
+        return;
+    };
+
+    let curTime = new Date().getTime();
+    if (curTime - prevTime < 200) {
+        return;
+    };
+    prevTime = curTime;
+
     fileType.disabled = false;
     bgOpacitySlider.disabled = false;
     bgOpacityNumber.disabled = false;
     gridOpacitySlider.disabled = false;
     gridOpacityNumber.disabled = false;
 
-    event.preventDefault();
+
     const form = document.querySelector("#graph-parameters");
     const formData = new FormData(form);
     const graphParameters = Object.fromEntries(formData);
@@ -189,9 +202,11 @@ lightModeBtn.addEventListener("click", setLightMode);
 document.addEventListener("DOMContentLoaded", getCountries);
 
 bgOpacitySlider.addEventListener("input", updateOpacity);
-bgOpacityNumber.addEventListener("input", updateOpacity);
+bgOpacityNumber.addEventListener("mouseup", updateOpacity);
 gridOpacitySlider.addEventListener("input", updateOpacity);
-gridOpacityNumber.addEventListener("input", updateOpacity);
+gridOpacityNumber.addEventListener("mouseup", updateOpacity);
+
+inclRegression.addEventListener("input", getGraph)
 
 fileType.addEventListener("input", opacityException);
 

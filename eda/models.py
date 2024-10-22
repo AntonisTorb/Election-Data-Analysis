@@ -12,6 +12,7 @@ class GraphParameters(BaseModel):
     bg_color: str
     bg_alpha: float
     line_connecting_color: str
+    incl_regression: Optional[bool] = False
     line_regression_color: str
     point_color: str
     text_color: str

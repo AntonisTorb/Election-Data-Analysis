@@ -206,11 +206,19 @@ input[type="submit"] {
     transition: var(--transition-base);
 }
 
-.container-countries {
+.container-countries,
+.container-dates,
+.container-colors,
+.container-regression,
+.container-alphas,
+.container-file {
     display: grid;
-    grid-template-columns: 1fr 1fr;
     border: 2px solid var(--border-color);
     border-radius: 5px;
+}
+
+.container-countries {
+    grid-template-columns: 1fr 1fr;
 }
 
 select {
@@ -231,10 +239,7 @@ select {
 }
 
 .container-dates {
-    display: grid;
     grid-template-columns: 1fr 1fr;
-    border: 2px solid var(--border-color);
-    border-radius: 6px;
     row-gap: 5px;
 }
 
@@ -247,27 +252,40 @@ select {
 }
 
 .container-colors {
-    border: 2px solid var(--border-color);
-    border-radius: 6px;
-    display: grid;
     grid-template-columns: 3fr 1fr;
     row-gap: 5px;
     align-items: center;
 }
 
 .container-alphas {
-    border: 2px solid var(--border-color);
-    border-radius: 5px;
-    display: grid;
     grid-template-columns: 1fr 2fr 1fr;
     gap: 5px;
     align-items: center;
 }
 
+.container-regression {
+    grid-template-columns: 3fr 1fr;
+    gap: 5px;
+}
+
+#include-regression {
+    justify-self: end;
+    width: 25px;
+    height: 25px;
+    appearance: none;
+    background-color: var(--input-bg-color);
+    transition: var(--transition-base);
+}
+
+#include-regression:hover {
+    background-color: var(--hover-input-color);
+}
+
+#include-regression:checked {
+    appearance: revert;
+}
+
 .container-file {
-    border: 2px solid var(--border-color);
-    border-radius: 5px;
-    display: grid;
     grid-template-columns: 1fr 1fr;
     /* gap: 5px; */
     align-items: center;

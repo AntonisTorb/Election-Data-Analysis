@@ -97,13 +97,14 @@ def get_fig(df_final: pd.DataFrame, data: GraphParameters) -> Figure:
 
     fig, ax = plt.subplots()
 
-    # Linear regression line: y = a * x + b 
-    a, b = np.polyfit(dates.date2num(df_final["date"]), df_final["left_right"], 1)
+    if data.incl_regression:
+        # Linear regression line: y = a * x + b 
+        a, b = np.polyfit(dates.date2num(df_final["date"]), df_final["left_right"], 1)
 
-    ax.plot(df_final["date"],
-             a * dates.date2num(df_final["date"]) + b,
-             color=data.line_regression_color
-             )
+        ax.plot(df_final["date"],
+                a * dates.date2num(df_final["date"]) + b,
+                color=data.line_regression_color
+                )
     
     ax.plot(df_final["date"], 
             df_final["left_right"], 
