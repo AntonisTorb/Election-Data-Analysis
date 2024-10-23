@@ -1,18 +1,18 @@
-let graph = document.querySelector("#graph");
-let countrySelector = document.querySelector("#countries");
-let startDateSelect = document.querySelector("#start-date");
-let endDateSelect = document.querySelector("#end-date");
-let bgOpacitySlider = document.querySelector("#bg-alpha-slider");
-let bgOpacityNumber = document.querySelector("#bg-alpha-number");
-let gridOpacitySlider = document.querySelector("#grid-alpha-slider");
-let gridOpacityNumber = document.querySelector("#grid-alpha-number");
-let inclRegression = document.querySelector("#include-regression");
-let fileType = document.querySelector("#filetype");
-let downloadButton = document.querySelector("#download-graph-button");
+const graph = document.querySelector("#graph");
+const countrySelector = document.querySelector("#countries");
+const startDateSelect = document.querySelector("#start-date");
+const endDateSelect = document.querySelector("#end-date");
+const bgOpacitySlider = document.querySelector("#bg-alpha-slider");
+const bgOpacityNumber = document.querySelector("#bg-alpha-number");
+const gridOpacitySlider = document.querySelector("#grid-alpha-slider");
+const gridOpacityNumber = document.querySelector("#grid-alpha-number");
+const inclRegression = document.querySelector("#include-regression");
+const fileType = document.querySelector("#filetype");
+const downloadButton = document.querySelector("#download-graph-button");
 let prevTime = new Date().getTime();
 
-let lightModeBtn = document.querySelector("#light")
-let darkModeBtn = document.querySelector("#dark")
+const lightModeBtn = document.querySelector("#light")
+const darkModeBtn = document.querySelector("#dark")
 
 countrySelector.disabled = true;
 startDateSelect.disabled = true;
@@ -49,7 +49,7 @@ let getDates = async function () {
     startDateSelect.innerHTML = "";
     endDateSelect.innerHTML = "";
 
-    let r = await fetch(`http://127.0.0.1:8000/dates/${countrySelector.value}`);
+    const r = await fetch(`http://127.0.0.1:8000/dates/${countrySelector.value}`);
     const electionDates = await r.json();
     if (electionDates.length === 0) {
         return;
@@ -57,13 +57,13 @@ let getDates = async function () {
 
     for (let i = 0; i < electionDates.length; i++) {
         if (i < electionDates.length - 1) {
-            let opt = document.createElement('option');
+            const opt = document.createElement('option');
             opt.innerHTML = electionDates[i];
             opt.value = electionDates[i];
             startDateSelect.appendChild(opt);
         };
         if (i > 0) {
-            let opt = document.createElement('option');
+            const opt = document.createElement('option');
             opt.innerHTML = electionDates[i];
             opt.value = electionDates[i];
             endDateSelect.appendChild(opt);
@@ -77,8 +77,8 @@ let getDates = async function () {
 
 let dateRangeModify = async function (event) {
 
-    let startDateIndex = startDateSelect.selectedIndex;
-    let endDateIndex = endDateSelect.selectedIndex;
+    const startDateIndex = startDateSelect.selectedIndex;
+    const endDateIndex = endDateSelect.selectedIndex;
 
     for (let i = 0; i < startDateSelect.childElementCount; i++) {
         startDateSelect.options[i].disabled = false;
@@ -91,7 +91,7 @@ let dateRangeModify = async function (event) {
     };
 
     for (let i = endDateIndex + 1; i < startDateSelect.childElementCount; i++) {
-        let toDisable = startDateSelect.options[i];
+        const toDisable = startDateSelect.options[i];
         toDisable.disabled = true;
     };
 
@@ -101,12 +101,15 @@ let dateRangeModify = async function (event) {
 
 let getGraph = async function (event) {
 
-    event.preventDefault();
+    if (event.type === "submit") {
+        event.preventDefault();
+    };
+
     if (countrySelector.value === "") {
         return;
     };
 
-    let curTime = new Date().getTime();
+    const curTime = new Date().getTime();
     if (curTime - prevTime < 200) {
         return;
     };
@@ -189,7 +192,7 @@ let updateOpacity = async function (event) {
 };
 
 let downloadFile = function () {
-    let link = downloadButton.querySelector("a");
+    const link = downloadButton.querySelector("a");
     link.href = graph.src;
     link.download = `${countrySelector.value} historical parliament composition.${fileType.value}`;
     link.click();
@@ -201,9 +204,9 @@ lightModeBtn.addEventListener("click", setLightMode);
 
 document.addEventListener("DOMContentLoaded", getCountries);
 
-bgOpacitySlider.addEventListener("input", updateOpacity);
+bgOpacitySlider.addEventListener("mouseup", updateOpacity);
 bgOpacityNumber.addEventListener("mouseup", updateOpacity);
-gridOpacitySlider.addEventListener("input", updateOpacity);
+gridOpacitySlider.addEventListener("mouseup", updateOpacity);
 gridOpacityNumber.addEventListener("mouseup", updateOpacity);
 
 inclRegression.addEventListener("input", getGraph)
@@ -216,5 +219,5 @@ endDateSelect.addEventListener("input", dateRangeModify);
 countrySelector.addEventListener("input", getGraph);
 downloadButton.addEventListener("click", downloadFile);
 
-let form = document.querySelector("#graph-parameters");
+const form = document.querySelector("#graph-parameters");
 form.addEventListener("submit", getGraph);
